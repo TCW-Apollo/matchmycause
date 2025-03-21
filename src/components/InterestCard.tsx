@@ -3,10 +3,6 @@ import { useState } from 'react';
 import { Interest } from '@/data/interests';
 import { cn } from '@/lib/utils';
 import * as LucideIcons from 'lucide-react';
-import { Icon } from 'lucide-react';
-
-// Define a type that represents all available icons in Lucide
-type LucideIconName = keyof typeof LucideIcons;
 
 interface InterestCardProps {
   interest: Interest;
@@ -17,14 +13,12 @@ interface InterestCardProps {
 export const InterestCard = ({ interest, selected, onToggle }: InterestCardProps) => {
   const [isHovered, setIsHovered] = useState(false);
   
-  // Safer way to render the icon
+  // Safely render the icon using a dynamic approach
   const renderIcon = () => {
-    // Check if the icon name exists in LucideIcons
-    if (interest.icon in LucideIcons) {
-      const IconComponent = LucideIcons[interest.icon as LucideIconName];
+    const IconComponent = LucideIcons[interest.icon as keyof typeof LucideIcons];
+    if (IconComponent) {
       return <IconComponent size={20} />;
     }
-    // Fallback to a default icon if the name doesn't exist
     return <LucideIcons.Circle size={20} />;
   };
   
